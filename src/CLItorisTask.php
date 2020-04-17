@@ -1,5 +1,5 @@
 <?php
-namespace CLItoris;
+namespace mvan\CLItoris;
 
 /**
  * CLItorisTask

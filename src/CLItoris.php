@@ -1,6 +1,6 @@
 <?php
 
-namespace CLItoris;
+namespace mvan\CLItoris;
 
 /**
  * CLItoris
