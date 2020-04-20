@@ -3,20 +3,19 @@
 namespace mvan\CLItoris;
 
 /**
- * CLItoris
- * a simple framework for handling CLI task with structure.
+ * a simple library for handling CLI tasks in PHP.
  *
  * @author Martin Vancura <mv@mvan.eu>
  */
 
-class CLItoris {
+class Dispatcher {
     /**
      * @var string
      */
     private $task;
 
     /**
-     * @var CLItorisTask[]
+     * @var BaseTask[]
      */
     private $tasks;
 
@@ -26,7 +25,7 @@ class CLItoris {
     private $variables;
 
     /**
-     * CLItoris
+     * Dispatcher
      * @param array $argv
      */
     function __construct($argv) {

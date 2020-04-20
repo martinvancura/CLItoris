@@ -2,12 +2,12 @@
 namespace mvan\CLItoris;
 
 /**
- * CLItorisTask
- * Extension for the CLI task classes to inject arguments from command line
+ * BaseTask
+ * Base for the CLI task classes to inject arguments from command line
  * @author Martin Vancura <mv@mvan.eu>
  */
 
-abstract class CLItorisTask {
+abstract class BaseTask {
     /**
      * @var stdClass
      */

@@ -1,3 +1,51 @@
+### CLItoris - Light weight framework to perform CLI tasks in PHP
+
+This library help gives a structure to command line tasks in your project. The main features of the library are:
+
+Features
+--------
+ * Routing task
+ 
+Setup
+-----
+
+Add the library to your `composer.json` file in your project:
+
+```javascript
+{
+  "require": {
+      "mvan/clitoris": "1.*"
+  }
+}
+```
+
+Use [composer](http://getcomposer.org) to install the library:
+
+```bash
+$ php composer.phar install
+```
+
+Composer will install CLItoris inside your vendor folder. Then you can add the following to your
+.php files to use the library with Autoloading.
+
+```php
+require_once __DIR__ . '/vendor/autoload.php';
+```
+
+Alternatively, use composer on the command line to require and install CLItoris:
+
+```
+$ php composer.phar require mvan/clitoris:1.*
+```
+
+### Minimum Requirements
+ * PHP 7
+
+Usage
+-----
+
+
+
 **Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
 
 When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
