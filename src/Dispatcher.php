@@ -1,7 +1,7 @@
 <?php
 
 namespace mvan\CLItoris;
-
+use mvan\CLItoris\Color, mvan\CLItoris\Output;
 /**
  * a simple library for handling CLI tasks in PHP.
  *
@@ -81,7 +81,8 @@ class Dispatcher {
      * @param boolean $forced
      */
     private function renderHelp($forced = false) {
-        print "=== CLItoris Help === \n";
+        $out = new Output();
+        $out->printColoredLn("CLItoris Help \n", Color::TXT_LIGHT_PURPLE);
 
         if($forced) {
             print "There is no such task: {$this->task} \n";
