@@ -25,15 +25,37 @@ class Output {
         $this->textAlign = $_align;
     }
 
-    public function printColoredLn($message, $textColor, $backgroundColor=null){
+    public function printLn($message){
+        print $message;
+    }
+
+    public function printColoredLn($message, $textColor, $backgroundColor=null, $strpad=false){
+        $lines = [];
+
         if(strlen($message) > $this->lineLength) {
             $separatedLines = wordwrap($message,$this->lineLength,'{%line%}');
             $lines = explode('{%line%}', $separatedLines);
-            foreach($lines as $line) {
-                print $this->getColoredString(' '. str_pad($line, $this->lineLength, ' ', $this->textAlign).' '.PHP_EOL, $textColor, $backgroundColor);
+            
+        } elseif(substr_count($message, PHP_EOL)>1) {
+            $lines = explode(PHP_EOL, $message);
+        }
+        else {
+            if($strpad){
+                $string = str_pad($message, $this->lineLength, ' ', $this->textAlign);
+            } else {
+                $string = $message;
             }
-        } else {
-            print $this->getColoredString(' '. str_pad($message, $this->lineLength, ' ', $this->textAlign).' ', $textColor, $backgroundColor);
+            print $this->getColoredString($string, $textColor, $backgroundColor);
+            return;
+        }
+
+        foreach($lines as $line) {
+            if($strpad){
+                $string = str_pad($line, $this->lineLength, ' ', $this->textAlign);
+            } else {
+                $string = $line;
+            }
+            print $this->getColoredString($string.PHP_EOL, $textColor, $backgroundColor);
         }
     }
 

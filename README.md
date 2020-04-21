@@ -1,10 +1,12 @@
 ### CLItoris - Light weight framework to perform CLI tasks in PHP
 
-This library help gives a structure to command line tasks in your project. The main features of the library are:
+This library help with a structure of command line tasks in your project. It also allows you to print colored and formatted messages to terminal output. **Enjoy simplicity!**
 
 Features
 --------
- * Routing task
+ * Routing and executing your CLI tasks
+ * Parsing given arguments to stdClass
+ * Tools for colored and formatted text output to terminal
  
 Setup
 -----
@@ -43,51 +45,90 @@ $ php composer.phar require mvan/clitoris:1.*
 
 Usage
 -----
+### Define tasks
+```php
+<?php
+date_default_timezone_set("Europe/Prague");
 
+require_once '../src/Dispatcher.php';
+require_once '../src/BaseTask.php';
+require_once '../src/Color.php';
+require_once '../src/Output.php';
+require_once 'Demo.php';
 
+use mvan\CLItoris\Dispatcher;
 
-**Edit a file, create a new file, and clone from Bitbucket in under 2 minutes**
+$demo = new Dispatcher($argv);
+$demo->addTask('hello-world', mvan\CLItoris\tasks\Demo::class, 'helloWorld', 'Hello world! This is a dummy task where you can palay with parameters in format php yourFile.php param:value');
+$demo->addTask('rainbow', mvan\CLItoris\tasks\Demo::class, 'rainbow', 'Shows all available text colors.');
+$demo->dispatch();
+```
+### Implement them
+```php
+<?php
 
-When you're done, you can delete the content in this README and update the file with details for others getting started with your repository.
+namespace mvan\CLItoris\tasks;
 
-*We recommend that you open this README in another tab as you perform the tasks below. You can [watch our video](https://youtu.be/0ocf7u76WSo) for a full demo of all the steps in this tutorial. Open the video in a new tab to avoid leaving Bitbucket.*
+use mvan\CLItoris\BaseTask, mvan\CLItoris\Color, mvan\CLItoris\Output;
 
----
+/**
+ *
+ * @author Martin Vancura <mv@mvan.eu>
+ */
 
-## Edit a file
+class Demo extends BaseTask {
+    public function helloWorld() {
+        $out = new Output();
 
-You’ll start by editing this README file to learn how to edit a file in Bitbucket.
+        if(!empty((array)$this->args)){
+            $out->printColoredLn("Arguments to your task are: ".PHP_EOL, Color::TXT_LIGHT_PURPLE);
+            var_dump($this->args);
+        } else {
+            $out->printColoredLn("You have not used any arguments. Try some by typing ", Color::TXT_LIGHT_PURPLE);
+            $out->printColoredLn("$ php executable.php hello-world argument:value yay:3 ", Color::TXT_LIGHT_GREEN);
+            $out->printColoredLn("to the terminal.".PHP_EOL, Color::TXT_LIGHT_PURPLE);
+        }
+    }
 
-1. Click **Source** on the left side.
-2. Click the README.md link from the list of files.
-3. Click the **Edit** button.
-4. Delete the following text: *Delete this line to make a change to the README from Bitbucket.*
-5. After making your change, click **Commit** and then **Commit** again in the dialog. The commit page will open and you’ll see the change you just made.
-6. Go back to the **Source** page.
+    public function rainbow(){
+        /**
+         * Really long text will be automatically wrapped wrapped after certain number of characters if you want.
+         * Available text align: Output::ALIGN_CENTER, Output::ALIGN_LEFT, Output::ALIGN_RIGHT
+         */
+        $longTextOut = new Output(80,Output::ALIGN_CENTER);
+        $longTextOut->printColoredLn('sakldj laskjdl alskjd alksjd alksjd laksj dlkaj slkdja lskjdl ajskd lajsd laksjd lakjs dlajksdl akjslkdj alksjdl alskjd alksjd lajsdlk jlkqjlk wjelqkwjel qwkje qlkwje lqwjke qlwkje qlwkje qlkwje lqkwje lqwkje lqwkje qlwkje qlkwje lqkwje lkqjwelqjkw elkqjw elkqwje ',Color::TXT_LIGHT_GRAY, Color::BG_BLUE,true);
 
----
+        $out = new Output();
 
-## Create a file
+        /**
+         * You can print line without color decorator
+         */
+        $out->printLn(PHP_EOL);
 
-Next, you’ll add a new file to this repository.
+        /**
+         * You can use different colors on the same line
+         */
+        $out->printColoredLn('Blue text next to the ', Color::TXT_BLUE);
+        $out->printColoredLn('cyan text'.PHP_EOL, Color::TXT_CYAN);
+        $out->printLn(PHP_EOL);
 
-1. Click the **New file** button at the top of the **Source** page.
-2. Give the file a filename of **contributors.txt**.
-3. Enter your name in the empty file space.
-4. Click **Commit** and then **Commit** again in the dialog.
-5. Go back to the **Source** page.
-
-Before you move on, go ahead and explore the repository. You've already seen the **Source** page, but check out the **Commits**, **Branches**, and **Settings** pages.
-
----
-
-## Clone a repository
-
-Use these steps to clone from SourceTree, our client for using the repository command-line free. Cloning allows you to work on your files locally. If you don't yet have SourceTree, [download and install first](https://www.sourcetreeapp.com/). If you prefer to clone from the command line, see [Clone a repository](https://confluence.atlassian.com/x/4whODQ).
-
-1. You’ll see the clone button under the **Source** heading. Click that button.
-2. Now click **Check out in SourceTree**. You may need to create a SourceTree account or log in.
-3. When you see the **Clone New** dialog in SourceTree, update the destination path and name if you’d like to and then click **Clone**.
-4. Open the directory you just created to see your repository’s files.
-
-Now that you're more familiar with your Bitbucket repository, go ahead and add a new file locally. You can [push your change back to Bitbucket with SourceTree](https://confluence.atlassian.com/x/iqyBMg), or you can [add, commit,](https://confluence.atlassian.com/x/8QhODQ) and [push from the command line](https://confluence.atlassian.com/x/NQ0zDQ).
+        /**
+         * Or use any available color combination
+         */
+        $out->printColoredLn('Dark grey text'.PHP_EOL, Color::TXT_DARK_GRAY);
+        $out->printColoredLn('Green text'.PHP_EOL, Color::TXT_GREEN);
+        $out->printColoredLn('Light blue text'.PHP_EOL, Color::TXT_LIGHT_BLUE);
+        $out->printColoredLn('Light cyan text'.PHP_EOL, Color::TXT_LIGHT_CYAN);
+        $out->printColoredLn('Light grey text'.PHP_EOL, Color::TXT_LIGHT_GRAY);
+        $out->printColoredLn('Light green text'.PHP_EOL, Color::TXT_LIGHT_GREEN);
+        $out->printColoredLn('Light purple text'.PHP_EOL, Color::TXT_LIGHT_PURPLE);
+        $out->printColoredLn('Light red text'.PHP_EOL, Color::TXT_LIGHT_RED);
+        $out->printColoredLn('Purple text'.PHP_EOL, Color::TXT_PURPLE);
+        $out->printColoredLn('Red text'.PHP_EOL, Color::TXT_RED);
+        $out->printColoredLn(' White text on green background '.PHP_EOL, Color::TXT_WHITE, Color::BG_GREEN);
+        $out->printColoredLn('Yellow text'.PHP_EOL, Color::TXT_YELLOW);
+        $out->printColoredLn(' Black text on yellow background '.PHP_EOL, Color::TXT_BLACK, Color::BG_YELLOW);
+        $out->printColoredLn(' Light grey text on blue background '.PHP_EOL, Color::TXT_LIGHT_GRAY, Color::BG_BLUE);
+    }
+}
+```

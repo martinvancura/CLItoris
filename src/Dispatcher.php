@@ -82,19 +82,22 @@ class Dispatcher {
      */
     private function renderHelp($forced = false) {
         $out = new Output();
-        $out->printColoredLn("CLItoris Help \n\n", Color::TXT_LIGHT_GRAY, Color::BG_BLUE);
+        $out->printColoredLn(PHP_EOL." CLItoris Help".PHP_EOL, Color::TXT_LIGHT_GRAY, Color::BG_BLUE, true);
+        $out->printLn(PHP_EOL);
 
         if($forced) {
-            $out->printColoredLn("There is no such task: ", Color::TXT_WHITE, Color::BG_RED);
-            $out->printColoredLn("{$this->task} \n\n", Color::TXT_LIGHT_GRAY, Color::BG_RED);
+            $out->printColoredLn("There is no such task \"{$this->task}\" implemented. Please have a look bellow to see what tasks are available.".PHP_EOL, Color::TXT_LIGHT_RED);
         }
 
-        $out->printColoredLn("Implemented tasks in this project are: ", Color::TXT_LIGHT_BLUE);
+        $out->printColoredLn("Available tasks in this project are: ", Color::TXT_LIGHT_BLUE);
+        $out->printLn(PHP_EOL);
 
         foreach($this->tasks as $taskName => $task) {
-            $out->printColoredLn("{$taskName}\t", Color::TXT_LIGHT_PURPLE);
-            $out->printColoredLn("{$task->taskHelp}\n", Color::TXT_LIGHT_BLUE);
+            $out->printColoredLn("{$taskName} ", Color::TXT_LIGHT_PURPLE);
+            $out->printColoredLn("{$task->taskHelp}", Color::TXT_LIGHT_BLUE);
         }
+
+        $out->printLn(PHP_EOL);
     }
 
     /**
@@ -128,7 +131,8 @@ class Dispatcher {
 
         if(count($e) < 2) {
             $out = new Output();
-            $out->printColoredLn("CLItoris input error! Valid use of parameters is  \"php script.php task variable:value\" You have :".$arg." in the variable list", Color::TXT_WHITE, Color::BG_RED);
+            $out->printColoredLn("Invalid argument error! Valid use of arguments is \"php script.php task variable:value\" You have \"php script.php ".$arg."\"", Color::TXT_WHITE, Color::BG_RED, true);
+            exit;
         }
 
         $varArr[$e[0]] = $e[1];
