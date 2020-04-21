@@ -33,7 +33,7 @@ class Output {
                 print $this->getColoredString(' '. str_pad($line, $this->lineLength, ' ', $this->textAlign).' '.PHP_EOL, $textColor, $backgroundColor);
             }
         } else {
-            print $this->getColoredString(' '. str_pad($message, $this->lineLength, ' ', $this->textAlign).' '.PHP_EOL, $textColor, $backgroundColor);
+            print $this->getColoredString(' '. str_pad($message, $this->lineLength, ' ', $this->textAlign).' ', $textColor, $backgroundColor);
         }
     }
 
