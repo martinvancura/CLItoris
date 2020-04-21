@@ -82,16 +82,18 @@ class Dispatcher {
      */
     private function renderHelp($forced = false) {
         $out = new Output();
-        $out->printColoredLn("CLItoris Help \n", Color::TXT_LIGHT_PURPLE);
+        $out->printColoredLn("CLItoris Help \n\n", Color::TXT_LIGHT_GRAY, Color::BG_BLUE);
 
         if($forced) {
-            print "There is no such task: {$this->task} \n";
+            $out->printColoredLn("There is no such task: ", Color::TXT_WHITE, Color::BG_RED);
+            $out->printColoredLn("{$this->task} \n\n", Color::TXT_LIGHT_GRAY, Color::BG_RED);
         }
 
-        print "Implemented tasks in this project are: \n";
+        $out->printColoredLn("Implemented tasks in this project are: ", Color::TXT_LIGHT_BLUE);
 
         foreach($this->tasks as $taskName => $task) {
-            print "\t{$taskName}\t {$task->taskHelp}\n";
+            $out->printColoredLn("{$taskName}\t", Color::TXT_LIGHT_PURPLE);
+            $out->printColoredLn("{$task->taskHelp}\n", Color::TXT_LIGHT_BLUE);
         }
     }
 
@@ -125,7 +127,8 @@ class Dispatcher {
         $e = explode(':', $arg);
 
         if(count($e) < 2) {
-            throw new \Exception("CLItoris input error! Valid use is php script.php task variable:value... You have :".$arg." in the variable list");
+            $out = new Output();
+            $out->printColoredLn("CLItoris input error! Valid use of parameters is  \"php script.php task variable:value\" You have :".$arg." in the variable list", Color::TXT_WHITE, Color::BG_RED);
         }
 
         $varArr[$e[0]] = $e[1];

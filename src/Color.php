@@ -18,7 +18,6 @@ class Color {
     public const TXT_LIGHT_RED = '1;31';
     public const TXT_PURPLE = '0;35';
     public const TXT_LIGHT_PURPLE = '1;35';
-    public const TXT_BROWN = '0;33';
     public const TXT_YELLOW = '1;33';
     public const TXT_LIGHT_GRAY = '0;37';
     public const TXT_WHITE = '1;37';
