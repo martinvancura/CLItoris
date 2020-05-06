@@ -2,7 +2,7 @@
 
 namespace mvan\CLItoris\tasks;
 
-use mvan\CLItoris\BaseTask, mvan\CLItoris\Color, mvan\CLItoris\Output;
+use mvan\CLItoris\BaseTask, mvan\CLItoris\Color, mvan\CLItoris\Output, mvan\CLItoris\Table;
 
 /**
  *
@@ -23,7 +23,7 @@ class Demo extends BaseTask {
         }
     }
 
-    public function rainbow(){
+    public function rainbow() {
         /**
          * Really long text will be automatically wrapped wrapped after certain number of characters if you want.
          * Available text align: Output::ALIGN_CENTER, Output::ALIGN_LEFT, Output::ALIGN_RIGHT
@@ -62,5 +62,16 @@ class Demo extends BaseTask {
         $out->printColoredLn('Yellow text'.PHP_EOL, Color::TXT_YELLOW);
         $out->printColoredLn(' Black text on yellow background '.PHP_EOL, Color::TXT_BLACK, Color::BG_YELLOW);
         $out->printColoredLn(' Light grey text on blue background '.PHP_EOL, Color::TXT_LIGHT_GRAY, Color::BG_BLUE);
+    }
+
+    public function tables() {
+        $table = new Table();
+        $table
+            ->setHeaders(['Name', 'Age', 'Salary', 'Interests'])
+            ->addRow(['Mike Ross', 37, '$ 557,323', 'Practising law, drinking'])
+            ->addRow(['Barney Stinson', 42, '$ 757,323', 'Girls, booze, laser tag'])
+            ->setIndent(0)
+            ->setPadding(5)
+            ->display();
     }
 }

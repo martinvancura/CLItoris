@@ -7,6 +7,7 @@ Features
  * Routing and executing your CLI tasks
  * Parsing given arguments to stdClass
  * Tools for colored and formatted text output to terminal
+ * Creating and rendering tables
  
 Setup
 -----
@@ -54,6 +55,7 @@ require_once '../src/Dispatcher.php';
 require_once '../src/BaseTask.php';
 require_once '../src/Color.php';
 require_once '../src/Output.php';
+require_once '../src/Table.php';
 require_once 'Demo.php';
 
 use mvan\CLItoris\Dispatcher;
@@ -61,6 +63,7 @@ use mvan\CLItoris\Dispatcher;
 $demo = new Dispatcher($argv);
 $demo->addTask('hello-world', mvan\CLItoris\tasks\Demo::class, 'helloWorld', 'Hello world! This is a dummy task where you can palay with parameters in format php yourFile.php param:value');
 $demo->addTask('rainbow', mvan\CLItoris\tasks\Demo::class, 'rainbow', 'Shows all available text colors.');
+$demo->addTask('tables', mvan\CLItoris\tasks\Demo::class, 'tables', 'Shows work with tables.');
 $demo->dispatch();
 ```
 ### Implement them
@@ -69,7 +72,7 @@ $demo->dispatch();
 
 namespace mvan\CLItoris\tasks;
 
-use mvan\CLItoris\BaseTask, mvan\CLItoris\Color, mvan\CLItoris\Output;
+use mvan\CLItoris\BaseTask, mvan\CLItoris\Color, mvan\CLItoris\Output, mvan\CLItoris\Table;
 
 /**
  *
@@ -90,7 +93,7 @@ class Demo extends BaseTask {
         }
     }
 
-    public function rainbow(){
+    public function rainbow() {
         /**
          * Really long text will be automatically wrapped wrapped after certain number of characters if you want.
          * Available text align: Output::ALIGN_CENTER, Output::ALIGN_LEFT, Output::ALIGN_RIGHT
@@ -129,6 +132,17 @@ class Demo extends BaseTask {
         $out->printColoredLn('Yellow text'.PHP_EOL, Color::TXT_YELLOW);
         $out->printColoredLn(' Black text on yellow background '.PHP_EOL, Color::TXT_BLACK, Color::BG_YELLOW);
         $out->printColoredLn(' Light grey text on blue background '.PHP_EOL, Color::TXT_LIGHT_GRAY, Color::BG_BLUE);
+    }
+
+    public function tables() {
+        $table = new Table();
+        $table
+            ->setHeaders(['Name', 'Age', 'Salary', 'Interests'])
+            ->addRow(['Mike Ross', 37, '$ 557,323', 'Practising law, drinking'])
+            ->addRow(['Barney Stinson', 42, '$ 757,323', 'Girls, booze, laser tag'])
+            ->setIndent(0)
+            ->setPadding(5)
+            ->display();
     }
 }
 ```

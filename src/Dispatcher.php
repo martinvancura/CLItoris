@@ -95,9 +95,8 @@ class Dispatcher {
         foreach($this->tasks as $taskName => $task) {
             $out->printColoredLn("{$taskName} ", Color::TXT_LIGHT_PURPLE);
             $out->printColoredLn("{$task->taskHelp}", Color::TXT_LIGHT_BLUE);
+            $out->printLn(PHP_EOL);
         }
-
-        $out->printLn(PHP_EOL);
     }
 
     /**
